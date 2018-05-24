@@ -1,4 +1,4 @@
-Iugu
+Anymarket
 ==============
 
 Biblioteca com Mapeamento das funcionalidades mais utilizadas no Anymarket de uma forma mais genérica com mapeamento de objetos para rápido desenvolvimento.
