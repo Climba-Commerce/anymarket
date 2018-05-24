@@ -1,0 +1,23 @@
+{
+    "name": "idealizetecnologia/anymarket",
+    "description": "SDK de integracao com o Anymarket",
+    "keywords": ["anymarket", "php", "composer"],
+    "type": "library",
+    "license": ["MIT"],
+    "authors": [
+        {
+            "name": "Idealize Tecnologia",
+            "email": "desenvolvimento@idealizetecnologia.com.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Anymarket": "src/"
+        }
+    }
+}
