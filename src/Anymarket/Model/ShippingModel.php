@@ -2,6 +2,9 @@
 
 class ShippingModel 
 {
+    
+    const SHIPPING_TYPE_PAC         = 'PAC';
+    const SHIPPING_TYPE_SEDEX       = 'SEDEX';
 
 	public $city;
 	public $state;
