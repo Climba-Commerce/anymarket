@@ -290,15 +290,11 @@ class Anymarket
             $clientParams['base_uri'] 			= $this->generateBaseUrl();
             $clientParams['exceptions'] 		= false;
             
-            //TODO dilnei parou de funcionar
             if ($this->logsName){
-	            //$clientParams['handler'] 		= $this->createLoggingHandlerStack(['{method} {uri} HTTP/{version} {req_body}', 'Resposta: {code} - {res_body}']);
+	            $clientParams['handler'] 		= $this->createLoggingHandlerStack(['{method} {uri} HTTP/{version} {req_body}', 'Resposta: {code} - {res_body}']);
             }
             
             $client = new Client($clientParams);
-            
-            //TODO dilnei
-//             d($method, $clientParams['base_uri'].$url, $data);
             
             $response = $client->request($method, $url, $data);
             
