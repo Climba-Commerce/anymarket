@@ -33,6 +33,10 @@ class Anymarket
     	return $this->send('GET', "products", array(), $parameters);
     }
     
+    public function getProductDetails($productId, $parameters=array()){
+    	return $this->send('GET', "products/$productId", array(), $parameters);
+    }
+    
     public function getProductsSkus($productId, $parameters=array()){
     	return $this->send('GET', "products/$productId/skus", array(), $parameters);
     }
