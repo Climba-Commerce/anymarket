@@ -131,6 +131,15 @@ class Anymarket
     	
     }
     
+    public function putOrder($orderId, $model){
+    	
+    	$data           = array();
+    	$data['json']   = $this->populateJson($model);
+    	
+    	return $this->send('PUT', "orders/$orderId", $data);
+    	
+    }
+    
     public function putStock($model){
     	
     	$data           = array();
