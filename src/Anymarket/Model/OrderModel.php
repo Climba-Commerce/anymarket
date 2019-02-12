@@ -10,6 +10,18 @@ class OrderModel
 	const ORDER_STATUS_PAID_WAITING_SHIP 		= 'PAID_WAITING_SHIP';
 	const ORDER_STATUS_PENDING 					= 'PENDING';
 	
+	public static function getStatusName($code) {
+	    switch($code) {
+	        case self::ORDER_STATUS_CONCLUDED:		             return 'Concluído';
+	        case self::ORDER_STATUS_CANCELED:	                 return 'Cancelado';
+	        case self::ORDER_STATUS_INVOICED:		             return 'Faturado';
+	        case self::ORDER_STATUS_PAID_WAITING_DELIVERY:		 return 'Pago aguardando entrega';
+	        case self::ORDER_STATUS_PAID_WAITING_SHIP:		     return 'Pago aguardando envio';
+	        case self::ORDER_STATUS_PENDING:		             return 'Pendente';
+	    }
+	    return null;
+	}
+	
 	public $marketPlaceId;
 	public $marketPlaceNumber;
 	public $marketPlace;
