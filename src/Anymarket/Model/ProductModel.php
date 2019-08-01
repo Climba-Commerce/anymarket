@@ -17,7 +17,7 @@ class ProductModel
 	public $videoUrl;
 	public $gender='';
 	public $warrantyTime;
-	public $warrantyText='';
+	public $warrantyText;
 	public $height;
 	public $width;
 	public $weight;
