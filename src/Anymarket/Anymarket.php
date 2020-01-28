@@ -330,7 +330,7 @@ class Anymarket
     
     /**
      * @param Response $response
-     * @return \Iugu\Model\StandardResponse
+     * @return \Anymarket\Model\StandardResponse
      */
     private function generateStandardResponse(Response $response){
         
