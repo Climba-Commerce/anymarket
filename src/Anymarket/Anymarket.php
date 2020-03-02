@@ -23,61 +23,131 @@ class Anymarket
     private $logsName;
     
     protected $logger;
-    
-    public function __construct($token, $logsName=false){
+
+    public function __construct($token, $logsName=false)
+    {
         $this->token     	= $token;
         $this->logsName     = $logsName;
     }
-    
-    public function getProducts($parameters=array()){
+
+    /**
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getProducts($parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "products", array(), $parameters);
     }
-    
-    public function getProductDetails($productId, $parameters=array()){
+
+    /**
+     * @param $productId
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getProductDetails($productId, $parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "products/$productId", array(), $parameters);
     }
-    
-    public function getProductsSkus($productId, $parameters=array()){
+
+    /**
+     * @param $productId
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getProductsSkus($productId, $parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "products/$productId/skus", array(), $parameters);
     }
-    
-    public function getProductsImages($productId){
+
+    /**
+     * @param $productId
+     * @return StandardResponse
+     */
+    public function getProductsImages($productId): StandardResponse
+    {
     	return $this->send('GET', "products/$productId/images");
     }
-    
-    public function getOrder($orderId){
+
+    /**
+     * @param $orderId
+     * @return StandardResponse
+     */
+    public function getOrder($orderId): StandardResponse
+    {
     	return $this->send('GET', "orders/$orderId");
     }
-    
-    public function getCategories($parameters=array()){
+
+    /**
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getCategories($parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "categories", array(), $parameters);
     }
-    
-    public function getVariations($parameters=array()){
+
+    /**
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getVariations($parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "variations", array(), $parameters);
     }
-    
-    public function getBrands($parameters=array()){
+
+    /**
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getBrands($parameters=array()): StandardResponse
+    {
     	return $this->send('GET', "brands", array(), $parameters);
     }
-    
-    public function getCategoriesFullPath(){
+
+    /**
+     * @return StandardResponse
+     */
+    public function getCategoriesFullPath(): StandardResponse
+    {
     	return $this->send('GET', "categories/fullPath");
     }
-    
-    public function getCategory($id){
+
+    /**
+     * @param $id
+     * @return StandardResponse
+     */
+    public function getCategory($id): StandardResponse
+    {
     	return $this->send('GET', "categories/$id");
     }
-    
-    public function getVariationValues($typeId, $getParameters=array()){
+
+    /**
+     * @param $typeId
+     * @param array $getParameters
+     * @return StandardResponse
+     */
+    public function getVariationValues($typeId, $getParameters=array()): StandardResponse
+    {
     	return $this->send('GET', "variations/$typeId/values", array(), $getParameters);
     }
-    
-    public function getVariationValue($typeId, $valueId){
+
+    /**
+     * @param $typeId
+     * @param $valueId
+     * @return StandardResponse
+     */
+    public function getVariationValue($typeId, $valueId): StandardResponse
+    {
     	return $this->send('GET', "variations/$typeId/values/$valueId");
     }
-    
-    public function putCategory($id, $model){
+
+    /**
+     * @param $id
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putCategory($id, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -85,8 +155,14 @@ class Anymarket
     	return $this->send('PUT', "categories/$id", $data);
     	
     }
-    
-    public function putVariationType($id, $model){
+
+    /**
+     * @param $id
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putVariationType($id, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -94,8 +170,15 @@ class Anymarket
     	return $this->send('PUT', "variations/$id", $data);
     	
     }
-    
-    public function putVariationValue($typeId, $valueId, $model){
+
+    /**
+     * @param $typeId
+     * @param $valueId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putVariationValue($typeId, $valueId, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -103,8 +186,14 @@ class Anymarket
     	return $this->send('PUT', "variations/$typeId/values/$valueId", $data);
     	
     }
-    
-    public function putBrand($id, $model){
+
+    /**
+     * @param $id
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putBrand($id, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -112,8 +201,14 @@ class Anymarket
     	return $this->send('PUT', "brands/$id", $data);
     	
     }
-    
-    public function putProduct($id, $model){
+
+    /**
+     * @param $id
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putProduct($id, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -121,8 +216,15 @@ class Anymarket
     	return $this->send('PUT', "products/$id", $data);
     	
     }
-    
-    public function putProductSku($productId, $sku, $model){
+
+    /**
+     * @param $productId
+     * @param $sku
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putProductSku($productId, $sku, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -130,8 +232,13 @@ class Anymarket
     	return $this->send('PUT', "products/$productId/skus/$sku", $data);
     	
     }
-    
-    public function postOrder($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postOrder($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -139,8 +246,14 @@ class Anymarket
     	return $this->send('POST', "orders", $data);
     	
     }
-    
-    public function putOrder($orderId, $model){
+
+    /**
+     * @param $orderId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putOrder($orderId, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -148,8 +261,13 @@ class Anymarket
     	return $this->send('PUT', "orders/$orderId", $data);
     	
     }
-    
-    public function putStock($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putStock($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -157,12 +275,22 @@ class Anymarket
     	return $this->send('PUT', "stocks", $data);
     	
     }
-    
-    public function deleteCategory($id){
+
+    /**
+     * @param $id
+     * @return StandardResponse
+     */
+    public function deleteCategory($id): StandardResponse
+    {
     	return $this->send('DELETE', "categories/$id");
     }
-    
-    public function postCategory($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postCategory($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -170,8 +298,13 @@ class Anymarket
     	return $this->send('POST', "categories", $data);
     	
     }
-    
-    public function postVariationType($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postVariationType($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -179,8 +312,14 @@ class Anymarket
     	return $this->send('POST', "variations", $data);
     	
     }
-    
-    public function postVariationValue($typeId, $model){
+
+    /**
+     * @param $typeId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postVariationValue($typeId, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -188,8 +327,13 @@ class Anymarket
     	return $this->send('POST', "variations/$typeId/values", $data);
     	
     }
-    
-    public function postBrand($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postBrand($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -197,8 +341,13 @@ class Anymarket
     	return $this->send('POST', "brands", $data);
     	
     }
-    
-    public function postProduct($model){
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postProduct($model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -206,8 +355,14 @@ class Anymarket
     	return $this->send('POST', "products", $data);
     	
     }
-    
-    public function postProductSku($productId, $model){
+
+    /**
+     * @param $productId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postProductSku($productId, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -215,8 +370,14 @@ class Anymarket
     	return $this->send('POST', "products/$productId/skus", $data);
     	
     }
-    
-    public function postProductImage($productId, $model){
+
+    /**
+     * @param $productId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postProductImage($productId, $model): StandardResponse
+    {
     	
     	$data           = array();
     	$data['json']   = $this->populateJson($model);
@@ -224,14 +385,26 @@ class Anymarket
     	return $this->send('POST', "products/$productId/images", $data);
     	
     }
-    
-    public function deleteProductImage($productId, $productImageId){
+
+    /**
+     * @param $productId
+     * @param $productImageId
+     * @return StandardResponse
+     */
+    public function deleteProductImage($productId, $productImageId): StandardResponse
+    {
     	
     	return $this->send('DELETE', "products/$productId/images/$productImageId");
     	
     }
-    
-    public function deleteVariationValue($typeId, $valueId){
+
+    /**
+     * @param $typeId
+     * @param $valueId
+     * @return StandardResponse
+     */
+    public function deleteVariationValue($typeId, $valueId): StandardResponse
+    {
     	
     	return $this->send('DELETE', "variations/$typeId/values/$valueId");
     	
@@ -243,8 +416,9 @@ class Anymarket
     private function populateJson($objeto){
     	return $objeto;
     }
-    
-    private function getLogger() {
+
+    private function getLogger()
+    {
     	if (!$this->logger) {
     		$this->logger = with(new \Monolog\Logger('Anymarket'))->pushHandler(
 				new \Monolog\Handler\RotatingFileHandler($this->logsName)
@@ -254,16 +428,24 @@ class Anymarket
     	return $this->logger;
     	
     }
-    
 
-    private function createGuzzleLoggingMiddleware($messageFormat) {
+    /**
+     * @param $messageFormat
+     */
+    private function createGuzzleLoggingMiddleware($messageFormat)
+    {
     	return \GuzzleHttp\Middleware::log(
     			$this->getLogger(),
     			new \GuzzleHttp\MessageFormatter($messageFormat)
     			);
     }
-    
-    private function createLoggingHandlerStack(array $messageFormats) {
+
+    /**
+     * @param array $messageFormats
+     * @return \GuzzleHttp\HandlerStack
+     */
+    private function createLoggingHandlerStack(array $messageFormats): \GuzzleHttp\HandlerStack
+    {
     	
     	$stack = \GuzzleHttp\HandlerStack::create();
     
@@ -276,8 +458,12 @@ class Anymarket
 		return $stack;
 		
     }
-    
-    private function generateBaseUrl(){
+
+    /**
+     * @return string
+     */
+    private function generateBaseUrl(): string
+    {
     	if ($this->sandBoxMode){
     		return $this->sandBoxUrl;
     	}
@@ -288,9 +474,10 @@ class Anymarket
      * @param string $method
      * @param string $url
      * @param array $data
-     * @return StandardResponse|boolean
+     * @return StandardResponse
      */
-    private function send($method, $url, $data=array(), $getParameters=array()){
+    private function send($method, $url, $data=array(), $getParameters=array()): StandardResponse
+    {
         
         try {
         	
@@ -319,20 +506,30 @@ class Anymarket
             $client = new Client($clientParams);
             
             $response = $client->request($method, $url, $data);
+
+            $standardResponse = $this->generateStandardResponse($response);
             
-            return $this->generateStandardResponse($response);
-            
-        } catch (\Exception $e) {
-            return false;
+        } catch (\Throwable $e) {
+
+            $mensagem = [];
+            $mensagem['message'] = $e->getMessage();
+
+            $standardResponse                   = new StandardResponse();
+            $standardResponse->statusCode       = $e->getCode();
+            $standardResponse->responseBody     = $mensagem;
+
         }
-        
+
+        return $standardResponse;
+
     }
     
     /**
      * @param Response $response
      * @return \Anymarket\Model\StandardResponse
      */
-    private function generateStandardResponse(Response $response){
+    private function generateStandardResponse(Response $response): StandardResponse
+    {
         
         $standardResponse                   = new StandardResponse();
         $standardResponse->statusCode       = $response->getStatusCode();
