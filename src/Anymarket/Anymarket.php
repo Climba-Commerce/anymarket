@@ -26,17 +26,17 @@ class Anymarket
     }
 
     /**
-     * @return ILogger
+     * @return ILogger|null
      */
-    public function getLogger(): ILogger
+    public function getLogger(): ?ILogger
     {
         return $this->logger;
     }
 
     /**
-     * @param ILogger $logger
+     * @param ILogger|null $logger
      */
-    public function setLogger(ILogger $logger): void
+    public function setLogger(?ILogger $logger): void
     {
         $this->logger = $logger;
     }
