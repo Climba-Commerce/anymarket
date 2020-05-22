@@ -16,18 +16,29 @@ class Anymarket
     private $productionUrl 	= 'http://api.anymarket.com.br/v2/';
     
     /**
-     * Se definido, irá salvar todos os logs de requisição/resposta passados pela biblioteca
-     * @example nome_pasta/2018/04/30/anymarket.log
-     * @var string $logsName
+     * @var ILogger
      */
-    private $logsName;
-    
     protected $logger;
 
-    public function __construct($token, $logsName=false)
+    public function __construct($token)
     {
         $this->token     	= $token;
-        $this->logsName     = $logsName;
+    }
+
+    /**
+     * @return ILogger
+     */
+    public function getLogger(): ILogger
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param ILogger $logger
+     */
+    public function setLogger(ILogger $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -417,47 +428,6 @@ class Anymarket
     	return $objeto;
     }
 
-    private function getLogger()
-    {
-    	if (!$this->logger) {
-    		$this->logger = with(new \Monolog\Logger('Anymarket'))->pushHandler(
-				new \Monolog\Handler\RotatingFileHandler($this->logsName)
-			);
-    	}
-    
-    	return $this->logger;
-    	
-    }
-
-    /**
-     * @param $messageFormat
-     */
-    private function createGuzzleLoggingMiddleware($messageFormat)
-    {
-    	return \GuzzleHttp\Middleware::log(
-    			$this->getLogger(),
-    			new \GuzzleHttp\MessageFormatter($messageFormat)
-    			);
-    }
-
-    /**
-     * @param array $messageFormats
-     * @return \GuzzleHttp\HandlerStack
-     */
-    private function createLoggingHandlerStack(array $messageFormats): \GuzzleHttp\HandlerStack
-    {
-    	
-    	$stack = \GuzzleHttp\HandlerStack::create();
-    
-    	collect($messageFormats)->each(function ($messageFormat) use ($stack) {
-    		$stack->unshift(
-				$this->createGuzzleLoggingMiddleware($messageFormat)
-			);
-    	});
-    	
-		return $stack;
-		
-    }
 
     /**
      * @return string
@@ -499,13 +469,17 @@ class Anymarket
             $clientParams['base_uri'] 			= $this->generateBaseUrl();
             $clientParams['exceptions'] 		= false;
             
-            if ($this->logsName){
-	            $clientParams['handler'] 		= $this->createLoggingHandlerStack(['{method} {uri} HTTP/{version} {req_body}', 'Resposta: {code} - {res_body}']);
+            if ($this->getLogger()) {
+                $this->getLogger()->request();
             }
-            
+
             $client = new Client($clientParams);
             
             $response = $client->request($method, $url, $data);
+
+            if ($this->getLogger()) {
+                $this->getLogger()->response();
+            }
 
             $standardResponse = $this->generateStandardResponse($response);
             
