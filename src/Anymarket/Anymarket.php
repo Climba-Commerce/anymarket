@@ -461,16 +461,25 @@ class Anymarket
         		$url.= '?'.implode('&', $params);
         		
         	}
+
+            $requestHeaders = [
+                'Accept' => 'application/json',
+                'gumgaToken' => $this->token
+            ];
         	
-            $data['headers']['Accept'] 			= 'application/json';
-            $data['headers']['gumgaToken'] 		= $this->token;
+            $data['headers'] = $requestHeaders;
             
             $clientParams 						= array();
             $clientParams['base_uri'] 			= $this->generateBaseUrl();
             $clientParams['exceptions'] 		= false;
             
             if ($this->getLogger()) {
-                $this->getLogger()->request();
+                $this->getLogger()->request(
+                    $clientParams['base_uri'].$url,
+                    $method,
+                    $requestHeaders,
+                    $data['json'] ?? null
+                );
             }
 
             $client = new Client($clientParams);
@@ -478,7 +487,11 @@ class Anymarket
             $response = $client->request($method, $url, $data);
 
             if ($this->getLogger()) {
-                $this->getLogger()->response();
+                $this->getLogger()->response(
+                    $response->getStatusCode(),
+                    $response->getHeaders(),
+                    (string)$response->getBody()
+                );
             }
 
             $standardResponse = $this->generateStandardResponse($response);
