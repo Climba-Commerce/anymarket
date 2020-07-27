@@ -1,6 +1,6 @@
 {
     "name": "idealizetecnologia/anymarket",
-    "version": "v1.1.2",
+    "version": "v1.2.0",
     "description": "SDK de integracao com o Anymarket",
     "keywords": ["anymarket", "php", "composer"],
     "type": "library",
@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Climba Commerce",
-            "email": "desenvolvimento@idealizetecnologia.com.br"
+            "email": "dev@climba.com.br"
         }
     ],
     "minimum-stability": "dev",

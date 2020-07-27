@@ -368,6 +368,46 @@ class Anymarket
     }
 
     /**
+     * @return StandardResponse
+     */
+    public function getCallbacks(): StandardResponse
+    {
+
+    	$data           = array();
+    	$data['json']   = $this->populateJson($model);
+
+    	return $this->send('GET', "callbacks", $data);
+
+    }
+
+    /**
+     * @param $model
+     * @return StandardResponse
+     */
+    public function postCallback($model): StandardResponse
+    {
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "callbacks", $data);
+
+    }
+
+    /**
+     * @return StandardResponse
+     */
+    public function deleteCallback($id): StandardResponse
+    {
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('DELETE', "callbacks/$id");
+
+    }
+
+    /**
      * @param $productId
      * @param $model
      * @return StandardResponse
@@ -483,7 +523,7 @@ class Anymarket
             }
 
             $client = new Client($clientParams);
-            
+
             $response = $client->request($method, $url, $data);
 
             if ($this->getLogger()) {
