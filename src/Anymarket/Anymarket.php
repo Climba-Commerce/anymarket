@@ -374,7 +374,6 @@ class Anymarket
     {
 
     	$data           = array();
-    	$data['json']   = $this->populateJson($model);
 
     	return $this->send('GET', "callbacks", $data);
 
@@ -399,9 +398,6 @@ class Anymarket
      */
     public function deleteCallback($id): StandardResponse
     {
-
-        $data           = array();
-        $data['json']   = $this->populateJson($model);
 
         return $this->send('DELETE', "callbacks/$id");
 
