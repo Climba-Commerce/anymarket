@@ -9,7 +9,8 @@ class OrderModel
 	const ORDER_STATUS_PAID_WAITING_DELIVERY 	= 'PAID_WAITING_DELIVERY';
 	const ORDER_STATUS_PAID_WAITING_SHIP 		= 'PAID_WAITING_SHIP';
 	const ORDER_STATUS_PENDING 					= 'PENDING';
-	
+	const ORDER_STATUS_FROZEN 					= 'FROZEN';
+
 	public static function getStatusName($code) {
 	    switch($code) {
 	        case self::ORDER_STATUS_CONCLUDED:		             return 'Concluído';
@@ -18,6 +19,7 @@ class OrderModel
 	        case self::ORDER_STATUS_PAID_WAITING_DELIVERY:		 return 'Pago aguardando entrega';
 	        case self::ORDER_STATUS_PAID_WAITING_SHIP:		     return 'Pago aguardando envio';
 	        case self::ORDER_STATUS_PENDING:		             return 'Pendente';
+	        case self::ORDER_STATUS_FROZEN:		                 return 'Congelado';
 	    }
 	    return null;
 	}
