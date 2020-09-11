@@ -4,17 +4,19 @@ namespace Anymarket;
 use Anymarket\Model\StandardResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Throwable;
+use function json_decode;
 
 class Anymarket
 {
-    
-	public $sandBoxMode=true;
-	
-	private $token;
-	
+
+    public $sandBoxMode=true;
+
+    private $token;
+
     private $sandBoxUrl 	= 'http://sandbox-api.anymarket.com.br/v2/';
     private $productionUrl 	= 'http://api.anymarket.com.br/v2/';
-    
+
     /**
      * @var ILogger
      */
@@ -23,6 +25,12 @@ class Anymarket
     public function __construct($token)
     {
         $this->token     	= $token;
+    }
+
+    private function changeServerUrlToBackendUrl(): void
+    {
+        $this->sandBoxUrl = 'http://sandbox.anymarket.com.br/rest/api/';
+        $this->productionUrl = 'https://app.anymarket.com.br/rest/api/';
     }
 
     /**
@@ -47,7 +55,7 @@ class Anymarket
      */
     public function getProducts($parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "products", array(), $parameters);
+        return $this->send('GET', "products", array(), $parameters);
     }
 
     /**
@@ -57,7 +65,7 @@ class Anymarket
      */
     public function getProductDetails($productId, $parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "products/$productId", array(), $parameters);
+        return $this->send('GET', "products/$productId", array(), $parameters);
     }
 
     /**
@@ -67,7 +75,7 @@ class Anymarket
      */
     public function getProductsSkus($productId, $parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "products/$productId/skus", array(), $parameters);
+        return $this->send('GET', "products/$productId/skus", array(), $parameters);
     }
 
     /**
@@ -76,7 +84,7 @@ class Anymarket
      */
     public function getProductsImages($productId): StandardResponse
     {
-    	return $this->send('GET', "products/$productId/images");
+        return $this->send('GET', "products/$productId/images");
     }
 
     /**
@@ -85,7 +93,7 @@ class Anymarket
      */
     public function getOrder($orderId): StandardResponse
     {
-    	return $this->send('GET', "orders/$orderId");
+        return $this->send('GET', "orders/$orderId");
     }
 
     /**
@@ -94,7 +102,7 @@ class Anymarket
      */
     public function getCategories($parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "categories", array(), $parameters);
+        return $this->send('GET', "categories", array(), $parameters);
     }
 
     /**
@@ -103,7 +111,7 @@ class Anymarket
      */
     public function getVariations($parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "variations", array(), $parameters);
+        return $this->send('GET', "variations", array(), $parameters);
     }
 
     /**
@@ -112,7 +120,7 @@ class Anymarket
      */
     public function getBrands($parameters=array()): StandardResponse
     {
-    	return $this->send('GET', "brands", array(), $parameters);
+        return $this->send('GET', "brands", array(), $parameters);
     }
 
     /**
@@ -120,7 +128,7 @@ class Anymarket
      */
     public function getCategoriesFullPath(): StandardResponse
     {
-    	return $this->send('GET', "categories/fullPath");
+        return $this->send('GET', "categories/fullPath");
     }
 
     /**
@@ -129,7 +137,7 @@ class Anymarket
      */
     public function getCategory($id): StandardResponse
     {
-    	return $this->send('GET', "categories/$id");
+        return $this->send('GET', "categories/$id");
     }
 
     /**
@@ -139,7 +147,7 @@ class Anymarket
      */
     public function getVariationValues($typeId, $getParameters=array()): StandardResponse
     {
-    	return $this->send('GET', "variations/$typeId/values", array(), $getParameters);
+        return $this->send('GET', "variations/$typeId/values", array(), $getParameters);
     }
 
     /**
@@ -149,7 +157,7 @@ class Anymarket
      */
     public function getVariationValue($typeId, $valueId): StandardResponse
     {
-    	return $this->send('GET', "variations/$typeId/values/$valueId");
+        return $this->send('GET', "variations/$typeId/values/$valueId");
     }
 
     /**
@@ -159,12 +167,12 @@ class Anymarket
      */
     public function putCategory($id, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "categories/$id", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "categories/$id", $data);
+
     }
 
     /**
@@ -174,12 +182,12 @@ class Anymarket
      */
     public function putVariationType($id, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "variations/$id", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "variations/$id", $data);
+
     }
 
     /**
@@ -190,12 +198,12 @@ class Anymarket
      */
     public function putVariationValue($typeId, $valueId, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "variations/$typeId/values/$valueId", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "variations/$typeId/values/$valueId", $data);
+
     }
 
     /**
@@ -205,12 +213,12 @@ class Anymarket
      */
     public function putBrand($id, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "brands/$id", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "brands/$id", $data);
+
     }
 
     /**
@@ -220,12 +228,12 @@ class Anymarket
      */
     public function putProduct($id, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "products/$id", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "products/$id", $data);
+
     }
 
     /**
@@ -236,12 +244,12 @@ class Anymarket
      */
     public function putProductSku($productId, $sku, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "products/$productId/skus/$sku", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "products/$productId/skus/$sku", $data);
+
     }
 
     /**
@@ -250,12 +258,12 @@ class Anymarket
      */
     public function postOrder($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "orders", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "orders", $data);
+
     }
 
     /**
@@ -265,12 +273,12 @@ class Anymarket
      */
     public function putOrder($orderId, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "orders/$orderId", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "orders/$orderId", $data);
+
     }
 
     /**
@@ -279,12 +287,12 @@ class Anymarket
      */
     public function putStock($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('PUT', "stocks", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('PUT', "stocks", $data);
+
     }
 
     /**
@@ -293,7 +301,7 @@ class Anymarket
      */
     public function deleteCategory($id): StandardResponse
     {
-    	return $this->send('DELETE', "categories/$id");
+        return $this->send('DELETE', "categories/$id");
     }
 
     /**
@@ -302,12 +310,12 @@ class Anymarket
      */
     public function postCategory($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "categories", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "categories", $data);
+
     }
 
     /**
@@ -316,12 +324,12 @@ class Anymarket
      */
     public function postVariationType($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "variations", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "variations", $data);
+
     }
 
     /**
@@ -331,12 +339,12 @@ class Anymarket
      */
     public function postVariationValue($typeId, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "variations/$typeId/values", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "variations/$typeId/values", $data);
+
     }
 
     /**
@@ -345,12 +353,12 @@ class Anymarket
      */
     public function postBrand($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "brands", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "brands", $data);
+
     }
 
     /**
@@ -359,12 +367,12 @@ class Anymarket
      */
     public function postProduct($model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "products", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "products", $data);
+
     }
 
     /**
@@ -373,9 +381,9 @@ class Anymarket
     public function getCallbacks(): StandardResponse
     {
 
-    	$data           = array();
+        $data           = array();
 
-    	return $this->send('GET', "callbacks", $data);
+        return $this->send('GET', "callbacks", $data);
 
     }
 
@@ -394,6 +402,7 @@ class Anymarket
     }
 
     /**
+     * @param $id
      * @return StandardResponse
      */
     public function deleteCallback($id): StandardResponse
@@ -410,12 +419,12 @@ class Anymarket
      */
     public function postProductSku($productId, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "products/$productId/skus", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "products/$productId/skus", $data);
+
     }
 
     /**
@@ -425,12 +434,12 @@ class Anymarket
      */
     public function postProductImage($productId, $model): StandardResponse
     {
-    	
-    	$data           = array();
-    	$data['json']   = $this->populateJson($model);
-    	
-    	return $this->send('POST', "products/$productId/images", $data);
-    	
+
+        $data           = array();
+        $data['json']   = $this->populateJson($model);
+
+        return $this->send('POST', "products/$productId/images", $data);
+
     }
 
     /**
@@ -440,9 +449,43 @@ class Anymarket
      */
     public function deleteProductImage($productId, $productImageId): StandardResponse
     {
-    	
-    	return $this->send('DELETE', "products/$productId/images/$productImageId");
-    	
+
+        return $this->send('DELETE', "products/$productId/images/$productImageId");
+
+    }
+
+    /**
+     * @param $typeId
+     * @return StandardResponse
+     */
+    public function deleteVariationType($typeId): StandardResponse
+    {
+
+        return $this->send('DELETE', "variations/$typeId");
+
+    }
+
+    /**
+     * @param $brandId
+     * @return StandardResponse
+     */
+    public function deleteBrand($brandId): StandardResponse
+    {
+
+        return $this->send('DELETE', "brands/$brandId");
+
+    }
+
+    /**
+     * @param $productId
+     * @return StandardResponse
+     */
+    public function deleteProduct($productId): StandardResponse
+    {
+
+        $this->changeServerUrlToBackendUrl();
+        return $this->send('DELETE', "products/$productId");
+
     }
 
     /**
@@ -452,16 +495,18 @@ class Anymarket
      */
     public function deleteVariationValue($typeId, $valueId): StandardResponse
     {
-    	
-    	return $this->send('DELETE', "variations/$typeId/values/$valueId");
-    	
+
+        return $this->send('DELETE', "variations/$typeId/values/$valueId");
+
     }
-    
+
     /**
      * Faz a população do json de acordo com os dados fornecidos para cada tipo de requisição
+     * @param $objeto
+     * @return mixed
      */
     private function populateJson($objeto){
-    	return $objeto;
+        return $objeto;
     }
 
 
@@ -470,45 +515,46 @@ class Anymarket
      */
     private function generateBaseUrl(): string
     {
-    	if ($this->sandBoxMode){
-    		return $this->sandBoxUrl;
-    	}
-    	return $this->productionUrl;
+        if ($this->sandBoxMode){
+            return $this->sandBoxUrl;
+        }
+        return $this->productionUrl;
     }
-    
+
     /**
      * @param string $method
      * @param string $url
      * @param array $data
+     * @param array $getParameters
      * @return StandardResponse
      */
-    private function send($method, $url, $data=array(), $getParameters=array()): StandardResponse
+    private function send(string $method, string $url, $data=array(), $getParameters=array()): StandardResponse
     {
-        
+
         try {
-        	
-        	if ($getParameters){
-        		
-        		$params = array();
-        		foreach ($getParameters as $filterName => $filterValue){
-        			$params[] = $filterName.'='.$filterValue;
-        		}
-        		
-        		$url.= '?'.implode('&', $params);
-        		
-        	}
+
+            if ($getParameters){
+
+                $params = array();
+                foreach ($getParameters as $filterName => $filterValue){
+                    $params[] = $filterName.'='.$filterValue;
+                }
+
+                $url.= '?'.implode('&', $params);
+
+            }
 
             $requestHeaders = [
                 'Accept' => 'application/json',
                 'gumgaToken' => $this->token
             ];
-        	
+
             $data['headers'] = $requestHeaders;
-            
+
             $clientParams 						= array();
             $clientParams['base_uri'] 			= $this->generateBaseUrl();
             $clientParams['exceptions'] 		= false;
-            
+
             if ($this->getLogger()) {
                 $this->getLogger()->request(
                     $clientParams['base_uri'].$url,
@@ -531,8 +577,8 @@ class Anymarket
             }
 
             $standardResponse = $this->generateStandardResponse($response);
-            
-        } catch (\Throwable $e) {
+
+        } catch (Throwable $e) {
 
             $mensagem = [];
             $mensagem['message'] = $e->getMessage();
@@ -546,20 +592,20 @@ class Anymarket
         return $standardResponse;
 
     }
-    
+
     /**
      * @param Response $response
-     * @return \Anymarket\Model\StandardResponse
+     * @return StandardResponse
      */
     private function generateStandardResponse(Response $response): StandardResponse
     {
-        
+
         $standardResponse                   = new StandardResponse();
         $standardResponse->statusCode       = $response->getStatusCode();
-        $standardResponse->responseBody     = \json_decode($response->getBody(), true);
-        
+        $standardResponse->responseBody     = json_decode($response->getBody(), true);
+
         return $standardResponse;
-        
+
     }
-	
+
 }
