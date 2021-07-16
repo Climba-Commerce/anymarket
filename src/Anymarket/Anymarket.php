@@ -73,9 +73,18 @@ class Anymarket
      * @param array $parameters
      * @return StandardResponse
      */
-    public function getProductsSkus($productId, $parameters=array()): StandardResponse
+    public function getProductsSkus($productId, array $parameters=array()): StandardResponse
     {
         return $this->send('GET', "products/$productId/skus", array(), $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return StandardResponse
+     */
+    public function getStock(array $parameters=array()): StandardResponse
+    {
+        return $this->send('GET', "stocks", [], $parameters);
     }
 
     /**
