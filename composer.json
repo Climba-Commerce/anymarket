@@ -1,6 +1,6 @@
 {
     "name": "idealizetecnologia/anymarket",
-    "version": "v1.2.5",
+    "version": "v1.3.0",
     "description": "SDK de integracao com o Anymarket",
     "keywords": ["anymarket", "php", "composer"],
     "type": "library",
@@ -13,8 +13,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.2.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "php": ">=8.0",
+        "guzzlehttp/guzzle": "^7.4.1"
     },
     "autoload": {
         "psr-0": {
