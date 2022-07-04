@@ -305,6 +305,24 @@ class Anymarket
     }
 
     /**
+     * @param $orderId
+     * @param $model
+     * @return StandardResponse
+     */
+    public function putNfe($orderId, $model): StandardResponse
+    {
+
+        $data                       = array();
+        $data['body']               = $model;
+
+        $options                    = array();
+        $options['Content-Type']    = 'application/xml';
+
+        return $this->send('PUT', "orders/$orderId/nfe", $data, array(), $options);
+
+    }
+
+    /**
      * @param $id
      * @return StandardResponse
      */
@@ -531,13 +549,29 @@ class Anymarket
     }
 
     /**
+     * @param $options
+     * @return array
+     */
+    private function getRequestHeaders(array $options): array
+    {
+        $requestHeaders                 = array();
+        $requestHeaders['Accept']       = 'application/json';
+        $requestHeaders['gumgaToken']   = $this->token;
+
+        $requestHeaders = array_merge($requestHeaders, $options);
+
+        return $requestHeaders;
+    }
+
+    /**
      * @param string $method
      * @param string $url
      * @param array $data
      * @param array $getParameters
+     * @param array $optionsRequest
      * @return StandardResponse
      */
-    private function send(string $method, string $url, $data=array(), $getParameters=array()): StandardResponse
+    private function send(string $method, string $url, $data=array(), $getParameters=array(), $optionsRequest=array()): StandardResponse
     {
 
         try {
@@ -553,11 +587,7 @@ class Anymarket
 
             }
 
-            $requestHeaders = [
-                'Accept' => 'application/json',
-                'gumgaToken' => $this->token
-            ];
-
+            $requestHeaders = $this->getRequestHeaders($optionsRequest);
             $data['headers'] = $requestHeaders;
 
             $clientParams 						= array();
