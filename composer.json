@@ -1,6 +1,6 @@
 {
     "name": "idealizetecnologia/anymarket",
-    "version": "v1.2.6",
+    "version": "v1.2.7",
     "description": "SDK de integracao com o Anymarket",
     "keywords": ["anymarket", "php", "composer"],
     "type": "library",
