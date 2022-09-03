@@ -13,6 +13,7 @@ class Anymarket
     public $sandBoxMode=true;
 
     private $token;
+    private $options;
 
     private $sandBoxUrl 	= 'http://sandbox-api.anymarket.com.br/v2/';
     private $productionUrl 	= 'http://api.anymarket.com.br/v2/';
@@ -22,9 +23,10 @@ class Anymarket
      */
     protected $logger;
 
-    public function __construct($token)
+    public function __construct($token, array $options)
     {
-        $this->token     	= $token;
+        $this->token = $token;
+        $this->options = $options;
     }
 
     private function changeServerUrlToBackendUrl(): void
@@ -557,6 +559,7 @@ class Anymarket
         $requestHeaders                 = array();
         $requestHeaders['Accept']       = 'application/json';
         $requestHeaders['gumgaToken']   = $this->token;
+        $requestHeaders['platform']     = $this->options['platform'] ?? '';
 
         $requestHeaders = array_merge($requestHeaders, $options);
 
