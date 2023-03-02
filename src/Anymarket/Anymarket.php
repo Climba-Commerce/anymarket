@@ -109,21 +109,16 @@ class Anymarket
 
     public function getOrderTag(int $orderId)
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "http://api.anymarket.com.br/v2/printtag/PDF",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 20,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\"orders\":[" . $orderId . "]}",
-            CURLOPT_HTTPHEADER => ["Content-Type: application/json", "gumgaToken: " . $this->token]
-        ]);
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return $response;
+        $clientParams = array();
+        $clientParams['base_uri'] = 'http://api.anymarket.com.br/v2/printtag/PDF';
+        $clientParams['exceptions'] = false;
+        $client = new Client($clientParams);
+        $body = new \stdClass();
+        $body->orders = array($orderId);
+        $data['headers'] = $this->getRequestHeaders(array());
+        $data['json'] = $this->populateJson($body);
+        $response = $client->request('POST', '', $data);
+        return $this->generateStandardResponseBinary($response);
     }
 
     /**
@@ -668,4 +663,11 @@ class Anymarket
 
     }
 
+    private function generateStandardResponseBinary($response): StandardResponse
+    {
+        $standardResponse = new StandardResponse();
+        $standardResponse->statusCode = $response->getStatusCode();
+        $standardResponse->responseBody = (binary)$response->getBody();
+        return $standardResponse;
+    }
 }
