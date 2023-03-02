@@ -13,7 +13,8 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=8.0",
-        "guzzlehttp/guzzle": "^7.4.1"
+        "guzzlehttp/guzzle": "^7.4.1",
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-0": {
