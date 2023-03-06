@@ -107,6 +107,19 @@ class Anymarket
         return $this->send('GET', "orders/$orderId");
     }
 
+    public function getOrderTag(int $orderId): StandardResponse
+    {
+        $client = new Client($this->getClientParams());
+        $body = new \stdClass();
+        $body->orders = array($orderId);
+        $data = array(
+            'headers' => $this->getRequestHeaders(array()),
+            'json' => $this->populateJson($body)
+        );
+        $response = $client->request('POST', 'printtag/PDF', $data);
+        return $this->generateStandardResponseBinary($response);
+    }
+
     /**
      * @param array $parameters
      * @return StandardResponse
@@ -592,9 +605,7 @@ class Anymarket
             $requestHeaders = $this->getRequestHeaders($optionsRequest);
             $data['headers'] = $requestHeaders;
 
-            $clientParams 						= array();
-            $clientParams['base_uri'] 			= $this->generateBaseUrl();
-            $clientParams['exceptions'] 		= false;
+            $clientParams = $this->getClientParams();
 
             if ($this->getLogger()) {
                 $this->getLogger()->request(
@@ -634,6 +645,14 @@ class Anymarket
 
     }
 
+    private function getClientParams():array
+    {
+        return array(
+            'base_uri' => $this->generateBaseUrl(),
+            'exceptions' => false
+        );
+    }
+
     /**
      * @param Response $response
      * @return StandardResponse
@@ -649,4 +668,11 @@ class Anymarket
 
     }
 
+    private function generateStandardResponseBinary($response): StandardResponse
+    {
+        $standardResponse = new StandardResponse();
+        $standardResponse->statusCode = $response->getStatusCode();
+        $standardResponse->responseBody = (binary)$response->getBody();
+        return $standardResponse;
+    }
 }
