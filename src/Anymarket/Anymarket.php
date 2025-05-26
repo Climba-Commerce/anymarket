@@ -16,7 +16,7 @@ class Anymarket
     private $options;
 
     private $sandBoxUrl 	= 'http://sandbox-api.anymarket.com.br/v2/';
-    private $productionUrl 	= 'http://api.anymarket.com.br/v2/';
+    private $productionUrl 	= 'https://api.anymarket.com.br/v2/';
 
     /**
      * @var ILogger
